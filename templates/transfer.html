@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banking App - Transfer Funds</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f4f4f9;
+        }
+        form {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 400px;
+            margin: 50px auto;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        select, input[type="number"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: #0056b3;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #004494;
+        }
+        p {
+            color: red;
+            text-align: center;
+        }
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            color: #0056b3;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <form method="post">
+        <h1>Transfer Funds</h1>
+        {% if error %}
+        <p>{{ error }}</p>
+        {% endif %}
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        <div>
+            <label for="from_account">From Account:</label>
+            <select id="from_account" name="from_account" required>
+                <option value="">Select an account</option>
+                {% for account in accounts %}
+                <option value="{{ account.id }}">{{ account.account_number }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label for="to_account">To Account:</label>
+            <select id="to_account" name="to_account" required>
+                <option value="">Select an account</option>
+                {% for account in accounts %}
+                <option value="{{ account.id }}">{{ account.account_number }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label for="amount">Amount:</label>
+            <input type="number" id="amount" name="amount" step="0.01" required>
+        </div>
+        <button type="submit">Transfer</button>
+    </form>
+    <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+</body>
+</html>
